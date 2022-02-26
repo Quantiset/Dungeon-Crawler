@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/EnemyPinPoint.gd" type="Script" id=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float radius = 0.5;
+
+uniform vec4 color: hint_color = vec4(0.8, 0.2, 0.4, 1.);
+
+void fragment() {
+	vec2 uv = UV - vec2(0.5);
+	float mask = length(uv);
+	
+	COLOR = vec4(vec3(step(mask, radius))*color.rgb, step(mask, radius));
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/radius = 0.5
+shader_param/color = Color( 1, 1, 1, 1 )
+
+[node name="EnemyPinPoint" type="Sprite"]
+material = SubResource( 2 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
