@@ -11,7 +11,7 @@ extents = Vector2( 4.08527, 7.10978 )
 radius = 83.063
 
 [sub_resource type="RectangleShape2D" id=8]
-extents = Vector2( 4.92707, 7.64604 )
+extents = Vector2( 6, 8.5 )
 
 [sub_resource type="Gradient" id=3]
 offsets = PoolRealArray( 0, 0.0740741, 0.414815, 0.992593, 1 )
@@ -59,7 +59,7 @@ shape = SubResource( 2 )
 [node name="Area2D2" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
-position = Vector2( 0, -0.5 )
+position = Vector2( 2.38419e-07, -0.5 )
 shape = SubResource( 8 )
 
 [node name="AnimationPlayer" parent="." instance=ExtResource( 3 )]

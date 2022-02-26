@@ -42,7 +42,19 @@ func _physics_process(delta):
 	velocity /= 1.2
 		
 	velocity = move_and_slide(velocity)
+
+func _process(delta):
 	
+	for enemy in get_tree().get_nodes_in_group("Enemy"):
+		var pinpoint = preload("res://Scenes/EnemyPinPoint.tscn").instance()
+		pinpoint.position = enemy.position
+		get_node("../Viewport").add_child(pinpoint)
+	
+	
+	get_node("../Viewport/Camera2D").position = get_node("../Player/Camera2D").global_position
+	get_node("CanvasLayer/UI/Minimap").texture = get_node("../Viewport").get_texture()
+
+
 func take_damage(x):
 	health -= x
 	if health == 0:

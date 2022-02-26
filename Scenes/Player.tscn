@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Assets/0x72_16x16DungeonTileset.v1.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/AnimationPlayer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Heart.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 5.94707, 2.95536 )
@@ -32,9 +33,36 @@ color_ramp = SubResource( 4 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" groups=["Player"]]
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_group_": true
-}
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" type="ColorRect" parent="CanvasLayer"]
+margin_right = 1025.0
+margin_bottom = 4.0
+color = Color( 0.313726, 0.12549, 0.176471, 0.188235 )
+
+[node name="Minimap" type="Sprite" parent="CanvasLayer/UI"]
+position = Vector2( 905, 75 )
+scale = Vector2( 0.15, 0.15 )
+
+[node name="Shot" type="Sprite" parent="CanvasLayer/UI"]
+modulate = Color( 1, 1, 1, 0.698039 )
+position = Vector2( 35, 35 )
+scale = Vector2( 6, 6 )
+texture = ExtResource( 1 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 137, 98, 6, 13 )
+
+[node name="Healthbar" type="TextureRect" parent="CanvasLayer/UI"]
+modulate = Color( 1, 1, 1, 0.698039 )
+margin_left = 90.0
+margin_top = 15.0
+margin_right = 122.0
+margin_bottom = 24.0
+rect_scale = Vector2( 6, 6 )
+texture = ExtResource( 4 )
+stretch_mode = 2
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )

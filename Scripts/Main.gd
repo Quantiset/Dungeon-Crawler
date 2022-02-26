@@ -8,18 +8,20 @@ const ROOM = preload("res://Scenes/RoomRigid.tscn")
 const TIME_TO_DISPERSE = 2.0
 const VSPREAD = 400 # how far in y it spreads
 const HSPREAD = 620 # how far in x it spreads
-const BODIES = 50 # total rooms to pass to physics
-const MIN_SIZE = 40 # min room size
-const MAX_SIZE = 60 # max room size
+const BODIES = 40 # total rooms to pass to physics
+const MIN_SIZE = 70 # min room size
+const MAX_SIZE = 100 # max room size
 const X_MULTIPLICITY = 1 # controls how wide rooms are (larger = wider)
-const CULL_RATE = 0.8 # chance to free room once disperse time is over
-const CORRIDOR_SIZE = 3 # must be odd number
+const CULL_RATE = 0.92 # chance to free room once disperse time is over
+const CORRIDOR_SIZE = 4 
 
 var path_astar: AStar2D
 
 var leftmostroom = null
 var rightmostroom = null
 
+# amount of enemies per room and their % chance. Values should equal one.
+# For instance, having a room that has 2 enemies has a 0.2 or 20% chance of happening
 var chance_for_enemies_per_room := {
 	0: 0.4,
 	1: 0.3,
@@ -174,17 +176,6 @@ func carve_path(pos1, pos2):
 				set_cell(y_x.x+x_diff+x_add, y+y_add, 0)  # widen the corridor
 	
 
-func _process(delta):
-	
-	for enemy in get_tree().get_nodes_in_group("Enemy"):
-		var pinpoint = preload("res://Scenes/EnemyPinPoint.tscn").instance()
-		pinpoint.position = enemy.position
-		$Viewport.add_child(pinpoint)
-	
-	
-	if get_node_or_null("Player"):
-		$Viewport/Camera2D.position = $Player/Camera2D.global_position.snapped(Vector2(BLOCK_SIZE, BLOCK_SIZE))
-		$CanvasLayer/Minimap.texture = $Viewport.get_texture()
 
 func set_room(pos: Vector2, size: Vector2) -> RigidBody2D:
 	var r = ROOM.instance()
