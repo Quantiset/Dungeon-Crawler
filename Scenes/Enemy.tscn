@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/0x72_16x16DungeonTileset.v1.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Enemy.gd" type="Script" id=2]
@@ -10,31 +10,47 @@ extents = Vector2( 4.08527, 7.10978 )
 [sub_resource type="CircleShape2D" id=2]
 radius = 83.063
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 6, 8.5 )
 
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Animation" id=9]
+resource_name = "EnemyHurt"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1.7411, 1 ),
+"update": 0,
+"values": [ Color( 2.3, 0.12, 0.12, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Gradient" id=4]
 offsets = PoolRealArray( 0, 0.0740741, 0.414815, 0.992593, 1 )
 colors = PoolColorArray( 0.577148, 0.187122, 0.230543, 0.368627, 0.584728, 0.190965, 0.24019, 0.346634, 0.619592, 0.208639, 0.284565, 0.245467, 0.678711, 0.238609, 0.359809, 0.0739216, 0.980392, 0.890196, 0.984314, 0.0509804 )
 
-[sub_resource type="GradientTexture" id=4]
-gradient = SubResource( 3 )
+[sub_resource type="GradientTexture" id=5]
+gradient = SubResource( 4 )
 
-[sub_resource type="Curve" id=5]
+[sub_resource type="Curve" id=6]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.588608, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=6]
-curve = SubResource( 5 )
+[sub_resource type="CurveTexture" id=7]
+curve = SubResource( 6 )
 
-[sub_resource type="ParticlesMaterial" id=7]
+[sub_resource type="ParticlesMaterial" id=8]
 flag_disable_z = true
 direction = Vector3( 10, 0, 0 )
 gravity = Vector3( 0, 0, 0 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 2.5
-scale_curve = SubResource( 6 )
-color_ramp = SubResource( 4 )
+scale_curve = SubResource( 7 )
+color_ramp = SubResource( 5 )
 
 [node name="Enemy" type="KinematicBody2D" groups=["Enemy"]]
 script = ExtResource( 2 )
@@ -51,34 +67,42 @@ region_enabled = true
 region_rect = Rect2( 3, 65, 10, 15 )
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-visible = false
 shape = SubResource( 2 )
 
 [node name="Area2D2" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
 position = Vector2( 2.38419e-07, -0.5 )
-shape = SubResource( 8 )
+shape = SubResource( 3 )
 
-[node name="AnimationPlayer" parent="." instance=ExtResource( 3 )]
+[node name="EnemyMove" parent="." instance=ExtResource( 3 )]
+
+[node name="EnemyHurt" type="AnimationPlayer" parent="."]
+anims/EnemyHurt = SubResource( 9 )
 
 [node name="Particles2D" type="Particles2D" parent="."]
 position = Vector2( -3, 5.6 )
 z_index = -1
 amount = 100
 local_coords = false
-process_material = SubResource( 7 )
+process_material = SubResource( 8 )
 
 [node name="Particles2D2" type="Particles2D" parent="."]
 position = Vector2( 3, 5.5 )
 z_index = -1
 amount = 100
 local_coords = false
-process_material = SubResource( 7 )
+process_material = SubResource( 8 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( 0, -1.17094 )
+scale = Vector2( 1, 1.11709 )
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
 [connection signal="body_entered" from="Area2D2" to="." method="_on_player_hit_body_entered"]
 [connection signal="body_exited" from="Area2D2" to="." method="_on_player_hit_body_exited"]
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]

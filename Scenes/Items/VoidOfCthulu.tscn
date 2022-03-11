@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scripts/VoidOfCthulu.gd" type="Script" id=1]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 3.35933
+
+[sub_resource type="CanvasItemMaterial" id=2]
+blend_mode = 3
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.534314, 0.761818 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.516364 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0, 0.357616, 0.81457, 1 )
+colors = PoolColorArray( 0.662614, 0.403595, 0.898438, 1, 0.496624, 0.141037, 0.925781, 1, 0.286789, 0.360897, 0.699219, 1, 0.96875, 0.968011, 0.949829, 1 )
+
+[node name="Fireball" type="Area2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+material = SubResource( 2 )
+scale = Vector2( 2, 2 )
+amount = 150
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 2.0
+gravity = Vector2( 0, 0 )
+radial_accel = -20.0
+angle = 90.0
+angle_random = 1.0
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
+[connection signal="body_entered" from="." to="." method="_on_VoidOfCthulu_body_entered"]

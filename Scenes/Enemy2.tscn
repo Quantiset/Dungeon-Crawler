@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/Enemy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/Enemy2.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 3.94062, 7.54065 )
@@ -9,6 +10,7 @@ extents = Vector2( 3.94062, 7.54065 )
 extents = Vector2( 5.48902, 8.87937 )
 
 [node name="Enemy2" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource( 1 )

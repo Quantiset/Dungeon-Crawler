@@ -75,6 +75,8 @@ func _ready():
 		var pos = $Foreground.world_to_map(room.position)
 		var ul = (room.position / BLOCK_SIZE).floor() - s
 		
+		# i in range(3) then it
+		
 		# paints room
 		for x in range(2, s.x * 2 - 1):
 			for y in range(2, s.y * 2 - 1):
