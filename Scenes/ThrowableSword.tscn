@@ -17,5 +17,4 @@ shape = SubResource( 1 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 136, 97, 8, 14 )
-
 [connection signal="body_entered" from="." to="." method="_on_ThrowableSword_body_entered"]

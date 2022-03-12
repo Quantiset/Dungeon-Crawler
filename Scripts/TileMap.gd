@@ -8,6 +8,7 @@ func _on_TileMap_settings_changed():
 	print("settings changed")
 
 func _physics_process(delta: float):
+	
 	if Engine.is_editor_hint():
 		
 		var temp_tiles: Array = get_used_cells()
