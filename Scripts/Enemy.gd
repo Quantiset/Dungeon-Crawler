@@ -3,9 +3,12 @@ extends KinematicBody2D
 var velocity = Vector2()
 var player
 var player_collide
+
 export (int) var health = 3
 
 export (float) var speed = 45
+
+var is_dying := false
 
 func _ready():
 	# TODO: set physics process internet false initially 
@@ -45,12 +48,28 @@ func _on_player_hit_body_exited(body):
 		player_collide = null
 	
 func take_damage(dmg):
+	if is_dying: return
+	
 	health -= dmg
 	$EnemyHurt.play("EnemyHurt")
 	if health == 0:
-		queue_free()
+		die()
 
+func die():
+	$Node/DeathParticles.position = position
+	$Node/DeathParticles.emitting = true
+	
+	add_to_group("Moveable")
+	
+	is_dying = true
+	$EnemyHurt.play("Die")
+
+
+func apply_central_impulse(vec: Vector2):
+	velocity
 
 func _on_VisibilityNotifier2D_screen_entered():
 	set_physics_process(true)
 	set_physics_process_internal(true) # Replace with function body.
+
+

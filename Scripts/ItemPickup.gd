@@ -4,9 +4,7 @@ var player
 var item
 
 func _ready():
-	pass
 	
-func chest_open():
 	var item_idx = randi()%Globals.item_dict.size()
 	item = Globals.item_dict.keys()[item_idx]
 	

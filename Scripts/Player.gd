@@ -19,29 +19,39 @@ func _ready():
 
 func _physics_process(delta):
 	
+	$Particles2D.emitting = false
+	$Particles2D2.emitting = false
 	if Input.is_action_pressed("ui_up"):
+		$Particles2D.emitting = true
+		$Particles2D2.emitting = true
 		$PlayerMoveAnimation.play("PlayerMove")
 		velocity.y += -acceleration
 		if velocity.y < -max_speed:
 			velocity.y = -max_speed
 	if Input.is_action_pressed("ui_down"):
+		$Particles2D.emitting = true
+		$Particles2D2.emitting = true
 		$PlayerMoveAnimation.play("PlayerMove")
 		velocity.y += acceleration
 		if velocity.y > max_speed:
-			velocity.y =max_speed
+			velocity.y = max_speed
 	if Input.is_action_pressed("ui_right"):
+		$Particles2D.emitting = true
+		$Particles2D2.emitting = true
 		$Sprite.flip_h = true
 		$PlayerMoveAnimation.play("PlayerMove")
 		velocity.x += acceleration
 		if velocity.x > max_speed:
 			velocity.x = max_speed
 	if Input.is_action_pressed("ui_left"):
+		$Particles2D.emitting = true
+		$Particles2D2.emitting = true
 		$Sprite.flip_h = false
 		$PlayerMoveAnimation.play("PlayerMove")
 		velocity.x += -acceleration
 		if velocity.x < -max_speed:
 			velocity.x = -max_speed
-	if Input.is_action_just_pressed("ui_select"):
+	if Input.is_action_pressed("ui_shoot"):
 		if not $CanvasLayer/UI/Shot/PlayReload.is_playing():
 			var sword = preload("res://Scenes/ThrowableSword.tscn").instance()
 			get_parent().add_child(sword)
@@ -50,7 +60,12 @@ func _physics_process(delta):
 	
 	velocity /= 1.2
 	
-	velocity = move_and_slide(velocity)
+	velocity = move_and_slide(velocity, Vector2(), false, 4, PI/3, false)
+	for i in range(get_slide_count()):
+		var collision_info: KinematicCollision2D = get_slide_collision(i)
+		var collider = collision_info.collider
+		if collider.is_in_group("Moveable"):
+			collider.apply_central_impulse(to_local(collider.global_position).normalized() * 10)
 	
 	minimap()
 
